@@ -25,13 +25,12 @@ class Technician(models.Model):
         return reverse("technicinan", kwargs={"id": self.id})
 
 
-
 class Appointment(models.Model):
     date_time = models.DateTimeField(auto_now=False, auto_now_add=False)
     reason = models.TextField()
     status = models.BooleanField(default=False)
     vin = models.CharField(max_length=150)
-    custamer = models.CharField(max_length=)
+    custamer = models.CharField(max_length=150)
 
     technician = models.ForeignKey(
         Technician,
