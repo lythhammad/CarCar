@@ -22,7 +22,7 @@ class Technician(models.Model):
         return f"{self.last_name} - {self.last_name} - {self.employee_id}"
 
     def get_api_url(self):
-        return reverse("technicinan", kwargs={"id": self.id})
+        return reverse("technician", kwargs={"id": self.id})
 
 
 class Appointment(models.Model):
@@ -34,7 +34,7 @@ class Appointment(models.Model):
 
     technician = models.ForeignKey(
         Technician,
-        related_name="services",
+        related_name="appointment",
         on_delete=models.CASCADE
     )
 

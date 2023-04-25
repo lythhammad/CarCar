@@ -5,6 +5,9 @@ import time
 import json
 import requests
 
+
+from service.api.service_rest.models import Technician, Appointment
+
 sys.path.append("")
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "service_project.settings")
 django.setup()
