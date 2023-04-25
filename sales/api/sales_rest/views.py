@@ -14,6 +14,7 @@ class AutoMobileVOEncoder(ModelEncoder):
 class SalesPersonEncoder(ModelEncoder):
     model = SalesPerson
     properties = [
+        "id",
         "first_name",
         "last_name",
         "employee_id",
@@ -22,6 +23,7 @@ class SalesPersonEncoder(ModelEncoder):
 class CustomerEncoder(ModelEncoder):
     model = Customer
     properties = [
+        "id",
         "first_name",
         "last_name",
         "address",
@@ -82,13 +84,14 @@ def api_show_sales_person(request, id):
         sales_person = SalesPerson.objects.get(id=id)
     except SalesPerson.DoesNotExist:
         return JsonResponse(
-            {"message": "Sales Person doesn't exist"}
+            {"message": "Sales Person doesn't exist"},
             status = 404
         )
+
     if request.method == "GET":
         return JsonResponse(
             sales_person,
-            encoder=SalesPersonEncoder
+            encoder=SalesPersonEncoder,
             safe=False,
         )
     else:
@@ -126,7 +129,7 @@ def api_show_customer(request, id):
         customer = Customer.objects.get(id=id)
     except Customer.DoesNotExist:
         return JsonResponse(
-            {"message": "Customer doesn't exist"}
+            {"message": "Customer doesn't exist"},
             status = 404
         )
     if request.method == "GET":
@@ -150,10 +153,9 @@ def api_list_sales(request):
             )
     else:
         content = json.loads(request.body)
-
         try:
-            Auto = AutoMobileVO.objects.get(vin=content["automobile"])
-            content["automobile"] = Auto
+            Auto = AutoMobileVO.objects.get(vin=content["Automobile"])
+            content["Automobile"] = Auto
         except AutoMobileVO.DoesNotExist:
             return JsonResponse(
                 {"message": "Vin # not recognized"},
@@ -164,7 +166,7 @@ def api_list_sales(request):
             content["customer"] = customer
         except Customer.DoesNotExist:
             return JsonResponse(
-                {"message": "Invalid customer"}
+                {"message": "Invalid customer"},
                 status=404
             )
         sale = Sale.objects.create(**content)
@@ -191,4 +193,3 @@ def api_show_sale(request, id):
     else:
         count, _ = Sale.objects.filter(id=id).delete()
         return JsonResponse({"Deleted": count > 0})
-    

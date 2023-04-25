@@ -10,15 +10,28 @@ sys.path.append("")
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "sales_project.settings")
 django.setup()
 
+from sales_rest.models import AutoMobileVO
+
+
 # Import models from sales_rest, here.
 # from sales_rest.models import Something
+def get_automobiles():
+    response = requests.get("http://localhost:8100/api/automobiles/")
+    content = json.loads(response.content)
+
+    for auto in content["autos"]:
+        AutoMobileVO.objects.update_or_create(
+            import_href=auto["href"],
+            defaults={
+            "vin": auto["vin"]
+            },
+        )
 
 def poll(repeat = True):
     while True:
         print('Sales poller polling for data')
         try:
-            # Write your polling logic, here
-            pass
+            get_automobiles()
         except Exception as e:
             print(e, file=sys.stderr)
 
