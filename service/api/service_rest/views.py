@@ -8,7 +8,8 @@ from django.views.decorators.http import require_http_methods
 
 class TechnicianEncoder(ModelEncoder):
     model = Technician
-    property = [
+    properties = [
+        "id",
         "first_name",
         "last_name",
         "employee_id",
@@ -50,11 +51,14 @@ def api_list_appointments(request):
                 safe=False,
             )
         except Appointment.DoesNotExist:
-            response = JsonResponse(
-                {"message": "Could not create the service"}
-            )
-            response.status_code = 400
+            response = JsonResponse({
+                "message": "cant make it"
+            })
+            response.status_code = 404
             return response
+            # response = JsonResponse({"message": "Could not create the service"})
+            # response.status_code = 404
+            # return response
 
 
 @require_http_methods(["GET", "DELETE"])
@@ -103,7 +107,7 @@ def api_list_technicians(request):
             return JsonResponse(
                 technician,
                 encoder=TechnicianEncoder,
-                safe=False,
+                safe=False
             )
         except Technician.DoesNotExist:
             response = JsonResponse(
@@ -115,5 +119,11 @@ def api_list_technicians(request):
         technicians = Technician.objects.all()
         return JsonResponse(
             {"technicians": technicians},
-            encoder=TechnicianEncoder,
+            encoder=TechnicianEncoder
         )
+    # else:
+    #     try:
+    #         count, _ = Technician.objects.filter(id=id).delete()
+    #         return JsonResponse({"deleted": count > 0})
+    #     except Technician.DoesNotExist:
+    #         return JsonResponse({"message": "technicican dose not exist"})

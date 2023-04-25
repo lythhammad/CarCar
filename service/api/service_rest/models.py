@@ -19,7 +19,7 @@ class Technician(models.Model):
     employee_id = models.IntegerField(unique=True)
 
     def __str__(self):
-        return f"{self.last_name} - {self.employee_id}"
+        return f"{self.last_name} - {self.last_name} - {self.employee_id}"
 
     def get_api_url(self):
         return reverse("technicinan", kwargs={"id": self.id})
