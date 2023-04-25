@@ -18,7 +18,7 @@ class TechnicianEncoder(ModelEncoder):
 
 class AppointmentEnocoder(ModelEncoder):
     model = Appointment
-    property = [
+    properties = [
         "id",
         "vin",
         "custamer",
@@ -41,8 +41,8 @@ def list_appointments(request):
         try:
             content = json.loads(request.body)
             id = content["technician"]
-            technician = Technician.objects.get(id=id)
-            content["technican"] = technician
+            technicians = Technician.objects.get(id=id)
+            content["technician"] = technicians
 
             appointment = Appointment.objects.create(**content)
             return JsonResponse(
@@ -54,29 +54,6 @@ def list_appointments(request):
             response = JsonResponse({"message": "Could not create the service"})
             response.status_code = 404
             return response
-
-
-    # if request.method == "POST":
-    #     try:
-    #         content = json.loads(request.body)
-    #         appointment = Appointment.objects.create(**content)
-    #         return JsonResponse(
-    #             appointment,
-    #             encoder=AppointmentEnocoder,
-    #             safe=False
-    #         )
-    #     except Appointment.DoesNotExist:
-    #         response = JsonResponse(
-    #             {"message": "Could not create the technician"}
-    #             )
-    #         response.status_code = 400
-    #         return response
-    # elif request.method == "GET":
-    #     appointment = Appointment.objects.all()
-    #     return JsonResponse(
-    #         {"appointment": appointment},
-    #         encoder=AppointmentEnocoder
-    #     )
 
 
 @require_http_methods(["GET", "DELETE"])
@@ -99,8 +76,6 @@ def list_appointment(request, id):
             return JsonResponse({"deleted": count > 0})
         except Appointment.DoesNotExist:
             return JsonResponse({"message": "dose not exist"})
-
-
 
 
 @require_http_methods(["PUT"])
@@ -141,12 +116,6 @@ def list_technicians(request):
             {"technicians": technicians},
             encoder=TechnicianEncoder
         )
-    # else:
-    #     try:
-    #         count, _ = Technician.objects.filter(id=id).delete()
-    #         return JsonResponse({"deleted": count > 0})
-    #     except Technician.DoesNotExist:
-    #         return JsonResponse({"message": "technicican dose not exist"})
 
 
 @require_http_methods(["GET", "DELETE"])
