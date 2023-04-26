@@ -53,7 +53,7 @@ export default function CustomerForm()  {
 
     const [customers, setCustomers] = useState([]);
     const fetchCustomers = async () => {
-        const customerURL = "http://localhost:8090/api/customers";
+        const customerURL = "http://localhost:8090/api/customers/";
         const response = await fetch(customerURL);
 
         if (response.ok) {
