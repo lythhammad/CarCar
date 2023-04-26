@@ -14,7 +14,7 @@ function App() {
       <div className="container">
         <Routes>
           <Route path="/" element={<MainPage />} />
-          <Route path="Sales">
+          <Route path="Sales/*">
             <Route path="" element={<SaleList />} />
             <Route path="new" element={<SaleForm />} />
             <Route path="customers/new" element={<CustomerForm />} />
@@ -30,5 +30,3 @@ function App() {
 }
 
 export default App;
-
-
