@@ -133,7 +133,7 @@ def api_list_sales(request, employee_id=None):
         except AutomobileVO.DoesNotExist:
             return JsonResponse(
                 {"message": "Vin # not recognized"},
-                status_code=404
+                status=404
             )
         try:
             customer = Customer.objects.get(id=content["customer"])
