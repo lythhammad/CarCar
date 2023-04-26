@@ -36,8 +36,12 @@ class ModelEncoder(DateEncoder, QuerySetEncoder, JSONEncoder):
                 if property in self.encoders:
                     encoder = self.encoders[property]
                     value = encoder.default(value)
-                d[property] = value
-            d.update(self.get_extra_data(o))
+                if hasattr(o, property):
+                    if property == "AutomobileVin":
+                        value = o.AutomobileVin()
+                    else:
+                        d[property] = value
+                d.update(self.get_extra_data(o))
             return d
         else:
             return super().default(o)

@@ -10,7 +10,7 @@ sys.path.append("")
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "sales_project.settings")
 django.setup()
 
-from sales_rest.models import AutoMobileVO
+from sales_rest.models import AutomobileVO
 
 
 # Import models from sales_rest, here.
@@ -20,7 +20,7 @@ def get_automobiles():
     content = json.loads(response.content)
 
     for auto in content["autos"]:
-        AutoMobileVO.objects.update_or_create(
+        AutomobileVO.objects.update_or_create(
             import_href=auto["href"],
             defaults={
             "vin": auto["vin"]
