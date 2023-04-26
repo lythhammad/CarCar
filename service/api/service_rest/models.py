@@ -30,7 +30,7 @@ class Appointment(models.Model):
     reason = models.TextField()
     status = models.BooleanField(default=False)
     vin = models.CharField(max_length=150)
-    custamer = models.CharField(max_length=150)
+    customer = models.CharField(max_length=150)
 
     technician = models.ForeignKey(
         Technician,
@@ -43,7 +43,7 @@ class Appointment(models.Model):
         self.save()
 
     def __str__(self):
-        return f"{self.vin} - {self.custamer} - {self.date_time}"
+        return f"{self.vin} - {self.customer} - {self.date_time}"
 
     def get_api_ur(self):
         return reverse("appointment", kwargs={"id": self.id})
