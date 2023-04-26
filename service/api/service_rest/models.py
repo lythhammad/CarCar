@@ -10,7 +10,7 @@ class AutomobileVO(models.Model):
         return self.vin
 
     class Meta:
-        verbose_name_plural = "inventory VINs"
+        verbose_name_plural = "automobile"
 
 
 class Technician(models.Model):
