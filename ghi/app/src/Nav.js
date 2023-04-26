@@ -18,6 +18,16 @@ function Nav() {
               <li><NavLink className="dropdown-item" to="/Sales/customers/new">Customer Form</NavLink></li>
             </ul>
             </li>
+
+            <li className="nav-item dropdown">
+              <NavLink className="nav-link dropdown-toggle" to="/Services" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Services
+              </NavLink>
+              <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><NavLink className="dropdown-item" to="http://localhost:8080/api/technicians">Create Technician</NavLink></li>
+              </ul>
+            </li>
+
         </ul>
       </div>
     </div>

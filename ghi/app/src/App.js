@@ -6,6 +6,7 @@ import SaleList from './SaleList';
 import SaleForm from './SaleForm';
 import SalesPerson from './SalesPerson';
 import SalesPersonHistory from './SalesPersonHistory';
+import TechniciansForm from './TechnicianForm';
 
 function App() {
   return (
@@ -21,8 +22,9 @@ function App() {
             <Route path="salesperson">
               <Route path="new" element={<SalesPerson />} />
               <Route path="history" element={<SalesPersonHistory />} />
+              <Route path="technicians" element={<TechniciansForm />}/>
+              </Route>
             </Route>
-          </Route>
         </Routes>
       </div>
     </BrowserRouter>
