@@ -80,11 +80,12 @@ def list_appointment(request, id):
 
 
 @require_http_methods(["PUT"])
-def complete_appointment(request, id):
+def finished_appointment(request, id):
     if request.method == "PUT":
         try:
             appointment = Appointment.objects.get(id=id)
-            appointment.complete_service()
+            appointment.status = "finished"
+            appointment.save()
             return JsonResponse(
                 appointment,
                 encoder=AppointmentEnocoder,
@@ -94,19 +95,24 @@ def complete_appointment(request, id):
             response = JsonResponse({"message": "Does not exist"})
             response.status_code = 404
             return response
-# @require_http_methods(["PUT"])
-# def complete_appointment(request, id):
-#     if request.method == "PUT":
-#         try:
-#             appointment = Appointment.objects.get(id=id)
-#             appointment.complete_service()
-#             return JsonResponse(
-#                 appointment,
-#                 encoder=AppointmentEnocoder,
-#                 safe=False,
-#             )
-#         except Appointment.DoesNotExist:
-#             return JsonResponse({"message": "Dose not exist"})
+
+
+@require_http_methods(["PUT"])
+def cancel_appointment(request, id):
+    if request.method == "PUT":
+        try:
+            appointment = Appointment.objects.get(id=id)
+            appointment.status = "canceled"
+            appointment.save()
+            return JsonResponse(
+                appointment,
+                encoder=AppointmentEnocoder,
+                safe=False,
+            )
+        except Appointment.DoesNotExist:
+            response = JsonResponse({"message": "Does not exist"})
+            response.status_code = 404
+            return response
 
 
 @require_http_methods(["GET", "POST"])

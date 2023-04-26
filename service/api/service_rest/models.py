@@ -27,11 +27,10 @@ class Technician(models.Model):
 
 class Appointment(models.Model):
     date_time = models.DateTimeField(auto_now=False, auto_now_add=False)
-    reason = models.TextField()
-    status = models.BooleanField(default=False)
+    reason = models.CharField(max_length=200)
+    status = models.CharField(max_length=10)
     vin = models.CharField(max_length=150)
     customer = models.CharField(max_length=150)
-
     technician = models.ForeignKey(
         Technician,
         related_name="services",
