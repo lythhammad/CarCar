@@ -91,7 +91,22 @@ def complete_appointment(request, id):
                 safe=False,
             )
         except Appointment.DoesNotExist:
-            return JsonResponse({"message": "Dose not exist"})
+            response = JsonResponse({"message": "Does not exist"})
+            response.status_code = 404
+            return response
+# @require_http_methods(["PUT"])
+# def complete_appointment(request, id):
+#     if request.method == "PUT":
+#         try:
+#             appointment = Appointment.objects.get(id=id)
+#             appointment.complete_service()
+#             return JsonResponse(
+#                 appointment,
+#                 encoder=AppointmentEnocoder,
+#                 safe=False,
+#             )
+#         except Appointment.DoesNotExist:
+#             return JsonResponse({"message": "Dose not exist"})
 
 
 @require_http_methods(["GET", "POST"])
