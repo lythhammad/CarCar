@@ -2,6 +2,7 @@ import json
 from service_rest.models import Technician, Appointment, AutomobileVO
 from django.test import TransactionTestCase, Client
 
+
 class Tests(TransactionTestCase):
     ####TECHNICIANS ENDPOINTS
     def test_sales_people_list(self):
