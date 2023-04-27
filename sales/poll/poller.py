@@ -31,13 +31,12 @@ def poll(repeat = True):
     while True:
         print('Sales poller polling for data')
         try:
-            get_automobiles()
+            get_automobiles
         except Exception as e:
             print(e, file=sys.stderr)
 
         if (not repeat):
             break
-
         time.sleep(60)
 
 
