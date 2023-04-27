@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function CreatManufacturer() {
+function CreateManufacturer() {
 const [name, setName] = useState("");
 
 const handleSubmit = async (e) => {
@@ -39,7 +39,7 @@ return (
     );
 }
 
-export default CreatManufacturer;
+export default CreateManufacturer;
 
 
 // const getData = async (e) => {
