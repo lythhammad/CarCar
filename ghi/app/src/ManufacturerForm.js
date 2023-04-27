@@ -24,13 +24,13 @@ const handleSubmit = async (e) => {
 };
 
 const [name, setName] = useState('');
-const handletNameChange = (e) => {
+const handleNameChange = (e) => {
     const value = e.target.value;
     setName(value);
 };
-useEffect(() => {
-    setName('');
-},[]);
+// useEffect(() => {
+//     setName('');
+// },[]);
 
 return (
     <>
@@ -40,7 +40,7 @@ return (
                 <h2>Creat A Manufacturers</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="form-floating mb-3">
-                        <input onChange={handletNameChange} value={name} placeholder="Manufacturers Name" type="text" name="name" className="form-control" />
+                        <input onChange={handleNameChange} value={name} placeholder="Manufacturers Name" type="text" name="name" className="form-control" />
                         <label htmlFor="name">Manufacturers Name</label>
                     </div>
                     <button className="btn btn-primary">Create</button>
