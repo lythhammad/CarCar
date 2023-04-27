@@ -31,10 +31,10 @@ class SaleEncoder(ModelEncoder):
     model = Sale
     properties = [
         "id",
-        "AutomobileVin",
-        "Sales_Person",
-        "Customer",
-        "Price",
+        "automobile",
+        "salesperson",
+        "customer",
+        "price",
     ]
     encoders={
         "automobile": AutomobileVOEncoder(),
