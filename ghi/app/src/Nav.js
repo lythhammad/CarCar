@@ -15,7 +15,7 @@ function Nav() {
                 Sales
               </NavLink>
               <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><NavLink className="dropdown-item" to="/Sales/customers/new">Customer Form</NavLink></li>
+              <li><NavLink className="dropdown-item" to="/Sales/customers/create">Customer Form</NavLink></li>
             </ul>
             </li>
 
