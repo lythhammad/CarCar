@@ -17,8 +17,13 @@ function App() {
           <Route path="Sales/*">
             <Route path="customers/create" element={<CustomerForm />} />
             <Route path="history" element={<SalesPersonHistory />} />
-            <Route path="technicians" element={<TechniciansForm />} />
           </Route>
+
+          <Route path="Services/*">
+            <Route path='technicians/new' element={<TechniciansForm/>} />
+            <Route path='technicians/list' element={<TechniciansList/>}/>
+          </Route>
+
         </Routes>
       </div>
     </BrowserRouter>
