@@ -18,8 +18,8 @@ useEffect(() => {
 return (
     <>
     <h1>Technicians</h1>
-    <table className="table table-striped">
-        <thead>
+    <table className="table table-striped table-hover">
+        <thead className="table border-dark">
         <tr>
             <th>Employee ID</th>
             <th>First Name</th>

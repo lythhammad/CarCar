@@ -4,11 +4,15 @@ import Nav from './Nav';
 import CustomerForm from './CustomerForm';
 import SalesPersonForm from './SalesPersonForm';
 import SalesPersonHistory from './SalesPersonHistory';
-import TechniciansForm from './TechnicianForm';
-import TechniciansList from './Technicians';
 import SalesPersonList from './SalesPersonList';
 import SaleList from './SaleList';
 import SaleForm from './SaleForm';
+import TechniciansForm from './TechnicianForm';
+import TechniciansList from './Technicians';
+import HistoryList from './ServiceHistory';
+import ServiceAppointments from './ServiceAppointmentList';
+import ManufacturersList from './ManufacturerList';
+import CreatManufacturer from './ManufacturerForm';
 
 
 function App() {
@@ -30,6 +34,10 @@ function App() {
           <Route path="Services/*">
             <Route path='technicians/new' element={<TechniciansForm/>} />
             <Route path='technicians/list' element={<TechniciansList/>}/>
+            <Route path='service/history' element={<HistoryList/>}/>
+            <Route path='service/appointments' element={<ServiceAppointments/>}/>
+            <Route path='manufacturs/list' element={<ManufacturersList/>}/>
+            <Route path='create/manufacturs' element={<CreatManufacturer/>}/>
           </Route>
 
         </Routes>
