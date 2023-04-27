@@ -54,11 +54,14 @@ return (
             <div className="offset-3 col-6">
                 <div className="shadow p-4 mt-4">
                 <h1>Add a new Technician</h1>
+
                 <form onSubmit={handleSubmit} id="creat-location-form">
+
                     <div className="form-floating mb-3">
                         <input type="text" value={firstName} onChange= {handleFirstNameChange} placeholder="Name" className="form-control" />
                         <label htmlFor="name">First Name</label>
                     </div>
+
                     <div className="form-floating mb-3">
                         <input type="text" value={lastName} onChange={handleLastNameChange} placeholder="Name" className="form-control" />
                         <label htmlFor="name">Last Name</label>
