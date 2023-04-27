@@ -2,11 +2,15 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import MainPage from './MainPage';
 import Nav from './Nav';
 import CustomerForm from './CustomerForm';
-import SalesPerson from './SalesPerson';
+import SalesPersonForm from './SalesPersonForm';
 import SalesPersonHistory from './SalesPersonHistory';
 import TechniciansForm from './TechnicianForm';
 import TechniciansList from './Technicians';
 import SaleForm from './SaleForm';
+import SalesPersonList from './SalesPersonList';
+import SaleList from './SaleList';
+
+
 
 function App() {
   return (
@@ -18,7 +22,10 @@ function App() {
           <Route path="Sales/*">
             <Route path="create" element={<SaleForm />} />
             <Route path="customers/create" element={<CustomerForm />} />
-            <Route path="history" element={<SalesPersonHistory />} />
+            <Route path="salespeople/history" element={<SalesPersonHistory />} />
+            <Route path="salespeople/create" element={<SalesPersonForm />} />
+            <Route path="salespeople/list" element={<SalesPersonList />} />
+            <Route path="sales/all" element={<SaleList />} />
           </Route>
 
           <Route path="Services/*">

@@ -12,11 +12,15 @@ function Nav() {
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item dropdown">
               <NavLink className="nav-link dropdown-toggle" to="/Sales" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Sales
+              Sales
               </NavLink>
               <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><NavLink className="dropdown-item" to="/Sales/customers/create">Customer Form</NavLink></li>
-            </ul>
+                <li><NavLink className="dropdown-item" to="/Sales/customers/create">Customer Form</NavLink></li>
+                <li><NavLink className="dropdown-item" to="/Sales/salespeople/create">Salesperson Form</NavLink></li>
+                <li><NavLink className="dropdown-item" to="/Sales/salespeople/list">Salesperson List</NavLink></li>
+                <li><NavLink className="dropdown-item" to="Sales/salespeople/history"> Salesperson History</NavLink></li>
+                <li><NavLink className="dropdown-item" to="Sales/sales/all"> All Sales</NavLink></li>
+              </ul>
             </li>
 
             <li className="nav-item">
