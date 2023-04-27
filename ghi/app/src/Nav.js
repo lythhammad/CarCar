@@ -16,6 +16,7 @@ function Nav() {
               </NavLink>
               <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                 <li><NavLink className="dropdown-item" to="/Sales/customers/create">Customer Form</NavLink></li>
+                <li><NavLink className="dropdown-item" to="Sales/customers/list">Customers List</NavLink></li>
                 <li><NavLink className="dropdown-item" to="/Sales/salespeople/create">Salesperson Form</NavLink></li>
                 <li><NavLink className="dropdown-item" to="/Sales/salespeople/list">Salesperson List</NavLink></li>
                 <li><NavLink className="dropdown-item" to="Sales/salespeople/history"> Salesperson History</NavLink></li>
