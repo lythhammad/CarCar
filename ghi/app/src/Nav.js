@@ -20,6 +20,7 @@ function Nav() {
                 <li><NavLink className="dropdown-item" to="/Sales/salespeople/list">Salesperson List</NavLink></li>
                 <li><NavLink className="dropdown-item" to="Sales/salespeople/history"> Salesperson History</NavLink></li>
                 <li><NavLink className="dropdown-item" to="Sales/sales/all"> All Sales</NavLink></li>
+                <li><NavLink className="dropdown-item" to="Sales/form">Sale Form</NavLink></li>
               </ul>
             </li>
 
