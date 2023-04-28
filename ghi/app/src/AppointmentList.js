@@ -27,7 +27,7 @@ const handleCancelAppointment = async (appointmentId) => {
         });
         if (response.ok) {
             appointments.map(appointment =>{
-                if (appointment.id == appointmentId) {
+                if (appointment.id === appointmentId) {
                     appointment.status = "canceled"
                 }
             })
@@ -51,7 +51,7 @@ const handleFinishAppointment = async (appointmentId) => {
         });
         if (response.ok) {
             appointments.map(appointment =>{
-                if (appointment.id == appointmentId) {
+                if (appointment.id === appointmentId) {
                     appointment.status = "finished"
                 }
             })
@@ -101,19 +101,23 @@ return (
         </tr>
         </thead>
         <tbody>
-            <tr key={appointments.id}>
-                <td>{appointments.vin}</td>
-                <td>{appointments.Vip ? "YES" : "NO"}</td>
-                <td>{appointments.customer}</td>
-                <td>{getDate(appointments.date_time)}</td>
-                <td>{getTime(appointments.date_time)}</td>
-                {/* <td>{`${appointments.technician.first_name} ${appointments.technician.last_name}`}</td> */}
-                <td>{appointments.reason}</td>
-                <td>
-                    <button className="btn-danger me-2" onClick={() => handleCancelAppointment(appointments.id)}>Cancel</button>
-                    <button className="btn-success me-2" onClick={() => handleFinishAppointment(appointments.id)}>Finished</button>
-                </td>
-            </tr>
+            {appointments.map((appointment) =>(
+                <tr key={appointment.id}>
+                    <td>{appointment.vin}</td>
+                    <td>{appointment.Vip ? "YES" : "NO"}</td>
+                    <td>{appointment.customer}</td>
+                    <td>{getDate(appointment.date_time)}</td>
+                    <td>{getTime(appointment.date_time)}</td>
+
+                    <td>{`${appointment.technician.first_name} ${appointment.technician.last_name}`}</td>
+
+                    <td>{appointment.reason}</td>
+                    <td>
+                        <button className="btn-danger me-2" onClick={() => handleCancelAppointment(appointment.id)}>Cancel</button>
+                        <button className="btn-success me-2" onClick={() => handleFinishAppointment(appointment.id)}>Finished</button>
+                    </td>
+                </tr>
+            ))}
         </tbody>
     </table>
     </>
