@@ -27,6 +27,7 @@ return (
             <th>Is VIP?</th>
             <th>Custamer</th>
             <th>Date</th>
+            {/* <th>Time</th> */}
             <th>Technician</th>
             <th>Reason</th>
         </tr>

@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 function ServiceAppointmentForm() {
+    const [technicians, setTechnicians] = useState([]);
     const [vin, setVin] = useState("");
     const [customer, setCustomer] = useState("");
     const [date, setDate] = useState("");
@@ -19,13 +20,13 @@ function ServiceAppointmentForm() {
         data.technician = technician;
         data.reason = reason;
 
-        const serviceAppointmentUrl = "http://localhost:8080/api/appointments";
+        const serviceAppointmentUrl = "http://localhost:8080/api/technicians";
         const fetchConfig = {
-            method: "POST",
-            body: JSON.stringify( data ),
+            method: "post",
+            body: JSON.stringify(data),
             headers: {
-                'Content-Type': 'application/json',
-            }
+                "Content-Type": "application/json",
+            },
         };
 
         const response = await fetch(serviceAppointmentUrl, fetchConfig);
@@ -35,6 +36,7 @@ function ServiceAppointmentForm() {
             setDate("");
             setTime("");
             setTechnician("");
+            setTechnicians("")
             setReason("");
         }
     };
@@ -69,38 +71,62 @@ function ServiceAppointmentForm() {
         setReason(value);
     }
 
+    useEffect(() =>{
+        const fetchData = async () => {
+            const technicianurl = "http://localhost:8080/api/technicians";
+            const response = await fetch(technicianurl);
+
+            if (response.ok){
+                const data = await response.json();
+                setTechnicians(data.technicians)
+                console.log(data.technicians);
+            }
+        };
+        fetchData();
+    }, []);
+console.log()
 
 return (
     <>
         <div className="row">
             <div className="offset-3 col-6">
                 <div className="shadow p-4 mt-4">
-                <h1>Add a new Technician</h1>
+                <h1>Create A Service Appointment</h1>
                 <form onSubmit={handleSubmit} id="creat-location-form">
                     <div className="form-floating mb-3">
                         <input onChange= {handleVivChange} value={vin} placeholder="vin" required type='text' name='vin' id='vin' className="form-control" />
-                        <label htmlFor="vin"></label>
-                    </div>
-                    {/* <div className="form-floating mb-3">
-                        <input onChange= {} value={} placeholder="" required type='text' name='' id='' className="form-control" />
-                        <label htmlFor=""></label>
+                        <label htmlFor="vin">Vin</label>
                     </div>
                     <div className="form-floating mb-3">
-                        <input onChange= {} value={} placeholder="" required type='text' name='' id='' className="form-control" />
-                        <label htmlFor=""></label>
+                        <input onChange= {handleCustomerChange} value={customer} placeholder="customer" required type='text' name='customer' id='customer' className="form-control" />
+                        <label htmlFor="customer">Customer</label>
                     </div>
                     <div className="form-floating mb-3">
-                        <input onChange= {} value={} placeholder="" required type='text' name='' id='' className="form-control" />
-                        <label htmlFor=""></label>
+                        <input onChange= {handleDateChange} value={date} placeholder="date" required type='date' name='date' id='date' className="form-control" />
+                        <label htmlFor="date">Date</label>
                     </div>
                     <div className="form-floating mb-3">
-                        <input onChange= {} value={} placeholder="" required type='text' name='' id='' className="form-control" />
-                        <label htmlFor=""></label>
+                        <input onChange= {handleTimeChange} value={time} placeholder="time" required type='time' name='time' id='time' className="form-control" />
+                        <label htmlFor="time">Time</label>
                     </div>
+
                     <div className="form-floating mb-3">
-                        <input onChange= {} value={} placeholder="" required type='text' name='' id='' className="form-control" />
-                        <label htmlFor=""></label>
-                    </div> */}
+                        <select onChange= {handleTechnicianChange} value={technician} placeholder="technicians" required type='text' name='technicians' id='technicians' className="form-control">
+                        <option htmlFor="technicians">Technicians</option>
+                        {
+                            technicians.map(technician => {
+                                return (
+                                    <option key={technician.id} value={technician.id}>{technician.first_name}</option>
+                                );
+                            })
+                        }
+                        </select>
+                    </div>
+
+                    <div className="form-floating mb-3">
+                        <input onChange= {handleReasonChange} value={reason} placeholder="reason" required type='text' name='reason' id='reason' className="form-control" />
+                        <label htmlFor="reason">Reason</label>
+                    </div>
                     <button type="submit" className="btn btn-primary">Create</button>
                 </form>
                 </div>
