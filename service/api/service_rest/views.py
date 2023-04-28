@@ -2,8 +2,16 @@ import json
 from django.shortcuts import render
 from common.json import ModelEncoder
 from django.http import JsonResponse
-from .models import Technician, Appointment
+from .models import Technician, Appointment, AutomobileVO
 from django.views.decorators.http import require_http_methods
+
+
+class AutomobileVOEncoder(ModelEncoder):
+    model = AutomobileVO
+    property = [
+        "vin",
+        "import_href"
+    ]
 
 
 class TechnicianEncoder(ModelEncoder):

@@ -57,7 +57,6 @@ return (
                         <input onChange= {handleFirstNameChange} value={firstName} placeholder="firstName" required type='text' name='firstName' id='firstName' className="form-control" />
                         <label htmlFor="firstName">First Name</label>
                     </div>
-
                     <div className="form-floating mb-3">
                         <input onChange={handleLastNameChange} value={lastName} placeholder="lastName" type='text' name='lastName' id='lastName' className="form-control" />
                         <label htmlFor="lastName">Last Name</label>

@@ -32,16 +32,19 @@ function Nav() {
             <NavLink className="nav-link" aria-current="page" to="/Services/technicians/list">Technicians</NavLink>
             </li>
             <li className="nav-item">
+            <NavLink className="nav-link" aria-current="page" to="/Services/manufacturs/list">Manufacturs</NavLink>
+            </li>
+            <li className="nav-item">
+            <NavLink className="nav-link" aria-current="page" to="/Services/create/manufacturs">Create Manufacturs</NavLink>
+            </li>
+            <li className="nav-item">
             <NavLink className="nav-link" aria-current="page" to="/Services/service/history">Service History</NavLink>
             </li>
             <li className="nav-item">
             <NavLink className="nav-link" aria-current="page" to="/Services/service/appointments">Service Appointments</NavLink>
             </li>
             <li className="nav-item">
-            <NavLink className="nav-link" aria-current="page" to="/Services/manufacturs/list">Manufacturs</NavLink>
-            </li>
-            <li className="nav-item">
-            <NavLink className="nav-link" aria-current="page" to="/Services/create/manufacturs">Create Manufacturs</NavLink>
+            <NavLink className="nav-link" aria-current="page" to="/Services/create/service/appointments">Creat Service Appointments</NavLink>
             </li>
 
         </ul>
