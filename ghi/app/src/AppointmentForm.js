@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-function ServiceAppointmentForm() {
+function AppointmentForm() {
     const [technicians, setTechnicians] = useState([]);
     const [vin, setVin] = useState("");
     const [customer, setCustomer] = useState("");
@@ -11,8 +11,13 @@ function ServiceAppointmentForm() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        const data = {};
 
-        const data = {}
+        let datetime = new Date(date)
+        let hour_minute = time.split(":")
+        datetime.setHours(hour_minute[0])
+        datetime.setMinutes(hour_minute[1])
+
         data.vin = vin;
         data.customer = customer;
         data.date = date;
@@ -20,23 +25,25 @@ function ServiceAppointmentForm() {
         data.technician = technician;
         data.reason = reason;
 
-        const serviceAppointmentUrl = "http://localhost:8080/api/technicians";
+        const serviceAppointmentUrl = "http://localhost:8080/api/appointments";
         const fetchConfig = {
             method: "post",
-            body: JSON.stringify(data),
+            body: JSON.stringify( data ),
             headers: {
-                "Content-Type": "application/json",
-            },
+                'Content-Type': 'application/json',
+            }
         };
 
         const response = await fetch(serviceAppointmentUrl, fetchConfig);
         if (response.ok) {
+            const data = await response.json()
+            const success = document.getElementById("success");
+            success.className = "text-center";
             setVin("");
             setCustomer("");
             setDate("");
             setTime("");
             setTechnician("");
-            setTechnicians("")
             setReason("");
         }
     };
@@ -79,12 +86,11 @@ function ServiceAppointmentForm() {
             if (response.ok){
                 const data = await response.json();
                 setTechnicians(data.technicians)
-                console.log(data.technicians);
             }
-        };
+        }
         fetchData();
     }, []);
-console.log()
+
 
 return (
     <>
@@ -116,10 +122,10 @@ return (
                         {
                             technicians.map(technician => {
                                 return (
-                                    <option key={technician.id} value={technician.id}>{technician.first_name}</option>
+                                    <option key={technician.id} value={technician.id}>
+                                        {technician.first_name} {technician.last_name}</option>
                                 );
-                            })
-                        }
+                            })}
                         </select>
                     </div>
 
@@ -137,4 +143,4 @@ return (
 }
 
 
-export default ServiceAppointmentForm;
+export default AppointmentForm;

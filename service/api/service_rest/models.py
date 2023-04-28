@@ -3,14 +3,10 @@ from django.urls import reverse
 
 
 class AutomobileVO(models.Model):
-    vin = models.CharField(max_length=150)
-    import_href = models.CharField(max_length=200)
+    vin = models.CharField(max_length=17, unique=True)
 
-    def __str__(self):
-        return self.vin
-
-    class Meta:
-        verbose_name_plural = "automobile"
+    def get_api_url(self):
+        return reverse("api_vin", kwargs={"vin": self.vin})
 
 
 class Technician(models.Model):
@@ -26,6 +22,11 @@ class Technician(models.Model):
 
 
 class Appointment(models.Model):
+    Choices = (
+        ("canceled", "canceled"),
+        ("finished", "finished"),
+        ("finished", "finished"),
+        )
     date_time = models.DateTimeField(auto_now=False, auto_now_add=False)
     reason = models.CharField(max_length=200)
     status = models.CharField(max_length=10)
@@ -33,12 +34,20 @@ class Appointment(models.Model):
     customer = models.CharField(max_length=150)
     technician = models.ForeignKey(
         Technician,
-        related_name="services",
-        on_delete=models.CASCADE
+        related_name="appointment",
+        on_delete=models.CASCADE,
     )
 
-    def complete_service(self):
-        self.completed = True
+    def create(self):
+        self.completed = "create"
+        self.save()
+
+    def cancel(self):
+        self.completed = "canceled"
+        self.save()
+
+    def finished(self):
+        self.completed = "finished"
         self.save()
 
     def __str__(self):

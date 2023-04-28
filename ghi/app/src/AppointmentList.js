@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 
-function HistoryList() {
+function AppointmentsList() {
 const [appointments, setAppointmens] = useState([]);
-const [vin, setVin] = useState("");
 
 const getDate = (dateSring) => {
     const date = new Date(dateSring);
@@ -16,27 +15,53 @@ const getTime = (timeSring) => {
     return formattedtime
 }
 
-const handleSearch = async () => {
-    const url = "http://localhost:8080/api/appointments";
-    try{
-        const response = await fetch(url);
-        if (response.ok){
-            const data = await response.json();
-            setAppointmens(data.appointments)
+
+const handleCancelAppointment = async (appointmentId) => {
+    const url = `http://localhost:8080/api/appointments/${appointmentId}/cancel`;
+    try {
+        const response = await fetch(url, {
+            method: "PUT",
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        if (response.ok) {
+            appointments.map(appointment =>{
+                if (appointment.id == appointmentId) {
+                    appointment.status = "canceled"
+                }
+            })
+            setAppointmens([...appointments]);
+        } else {
+            console.error("Failed to cancel appointment");
         }
     } catch (e) {
-        console.error(e);
-    }
-    if (vin !== "") {
-        const filteredAppointments = appointments.filter(appointment => appointment.vin.startWith(vin));
-        setAppointmens(filteredAppointments)
+        console.error(e)
     }
 }
 
-
-const handleVinChange = (event) => {
-    const value = event.target.value;
-    setVin(value)
+const handleFinishAppointment = async (appointmentId) => {
+    const url = `http://localhost:8080/api/appointments/${appointmentId}/finish`;
+    try {
+        const response = await fetch(url, {
+            method: "PUT",
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        if (response.ok) {
+            appointments.map(appointment =>{
+                if (appointment.id == appointmentId) {
+                    appointment.status = "finished"
+                }
+            })
+            setAppointmens([...appointments]);
+        } else {
+            console.error("Failed to finish appointment");
+        }
+    } catch (e) {
+        console.error(e)
+    }
 }
 
 
@@ -71,15 +96,10 @@ useEffect(()=>{
 }, []);
 
 
+
 return (
     <>
-    <h1>Service History</h1>
-    <div>
-        <input type="text" placeholder="Search by VIN" value={vin} onChange={(e) => setVin(e.target.value)}></input>
-        <div className="input-group-append">
-            <button onClick={() => handleSearch()} className="btn btn-outline-secondary" type="button">Search</button>
-        </div>
-    </div>
+    <h1>Service Appointments</h1>
     <table className="table table-striped table-hover">
         <thead className="table border-dark">
         <tr>
@@ -90,7 +110,6 @@ return (
             <th>Time</th>
             <th>Technician</th>
             <th>Reason</th>
-            <th>Status</th>
         </tr>
         </thead>
         <tbody>
@@ -105,7 +124,10 @@ return (
                         <td>{getTime(appointment.date_time)}</td>
                         <td>{`${appointment.technician.first_name} ${appointment.technician.last_name}`}</td>
                         <td>{appointment.reason}</td>
-                        <td>{appointment.status}</td>
+                        <td>
+                            <button className="btn-danger me-2" onClick={() => handleCancelAppointment(appointment.id)}>Cancel</button>
+                            <button className="btn-success me-2" onClick={() => handleFinishAppointment(appointment.id)}>Finished</button>
+                        </td>
                     </tr>
                     )
                 }
@@ -116,4 +138,4 @@ return (
 );
 }
 
-export default HistoryList;
+export default AppointmentsList;

@@ -9,8 +9,8 @@ from django.views.decorators.http import require_http_methods
 class AutomobileVOEncoder(ModelEncoder):
     model = AutomobileVO
     property = [
+        "id"
         "vin",
-        "import_href"
     ]
 
 
@@ -93,7 +93,7 @@ def finished_appointment(request, id):
         try:
             appointment = Appointment.objects.get(id=id)
             appointment.status = "finished"
-            appointment.save()
+            appointment.finished()
             return JsonResponse(
                 appointment,
                 encoder=AppointmentEnocoder,
@@ -111,7 +111,7 @@ def cancel_appointment(request, id):
         try:
             appointment = Appointment.objects.get(id=id)
             appointment.status = "canceled"
-            appointment.save()
+            appointment.cancel()
             return JsonResponse(
                 appointment,
                 encoder=AppointmentEnocoder,
@@ -168,3 +168,13 @@ def list_technician(request, id):
             return JsonResponse({"deleted": count > 0})
         except Technician.DoesNotExist:
             return JsonResponse({"message": "dose not exist"})
+
+
+@require_http_methods(["GET", "POST"])
+def api_vin(request):
+    if request == "GET":
+        autos = AutomobileVO.objects.all()
+        return JsonResponse(
+            {"autos": autos},
+            encoder=AutomobileVOEncoder,
+        )
