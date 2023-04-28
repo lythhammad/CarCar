@@ -16,6 +16,23 @@ def api_list_AutomobileVO(request):
             encoder=AutomobileVOEncoder,
             safe=False
         )
+    else:
+        content = json.loads(request.body)
+        try:
+            automobile = AutomobileVO.objects.get(vin=content["vin"])
+            content["sold"] = True
+        except AutomobileVO.DoesNotExist:
+            return JsonResponse(
+                {"message": "Doesn't exist"},
+                status=404,
+            )
+        AutomobileVO.objects.filter(vin=content["vin"]).update(**content)
+        automobile = AutomobileVO.objects.get(vin=content["vin"])
+        return JsonResponse(
+            automobile,
+            encoder=AutomobileVOEncoder,
+            safe=False,
+        )
 
 @require_http_methods(["GET", "POST"])
 def api_list_sales_people(request):
@@ -125,35 +142,51 @@ def api_show_customer(request, id):
                 status=404
             )
 
-
 @require_http_methods(["GET", "POST"])
-def api_list_sales(request, employee_name=None):
+def api_list_sales(request):
     if request.method == "GET":
-        if employee_name is None:
-            sales = Sale.objects.all()
-        else:
-            sales = Sale.objects.filter(sales_person__name=employee_name)
+        sales = Sale.objects.all()
         return JsonResponse(
             {"sales": sales},
             encoder=SaleEncoder,
-            safe=False
         )
     else:
+        content = json.loads(request.body)
         try:
-            content = json.loads(request.body)
-            automobile = AutomobileVO.objects.get(vin=content["automobile"])
-            salesperson = Salesperson.objects.get(name=content["salesperson"])
-            customer = Customer.objects.get(name=content["customer"])
-            sale = Sale.objects.create(
-                automobile=automobile,
-                sales_person=salesperson,
-                customer=customer
-            )
-            return JsonResponse({"sale": sale}, encoder=SaleEncoder, safe=False)
-        except (AutomobileVO.DoesNotExist, Salesperson.DoesNotExist, Customer.DoesNotExist):
+            try:
+                automobile = AutomobileVO.objects.get(vin=content["automobile"])
+                content["automobile"] = automobile
+            except AutomobileVO.DoesNotExist:
+                return JsonResponse(
+                    {"message": "Vin not found"},
+                    status=404
+                )
+            try:
+                salesperson = Salesperson.objects.get(employee_id=content["salesperson"])
+                content["salesperson"] = salesperson
+            except Salesperson.DoesNotExist:
+                return JsonResponse(
+                    {"message": "Employee ID not found"},
+                    status=404
+                )
+            try:
+                customer = Customer.objects.get(phone_number=content["customer"])
+                content["customer"] = customer
+            except Customer.DoesNotExist:
+                return JsonResponse(
+                    {"message": "Phone Number not found"},
+                    status=404
+                )
+            sale = Sale.objects.create(**content)
             return JsonResponse(
-                {"message": "Cannot complete sale."},
-                status=404
+                sale,
+                encoder=SaleEncoder,
+                safe=False,
+            )
+        except:
+            return JsonResponse(
+                {"message": "Sale Created"},
+                status=200
             )
 
 @require_http_methods(["GET", "DELETE"])
