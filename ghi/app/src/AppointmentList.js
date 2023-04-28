@@ -68,31 +68,19 @@ const handleFinishAppointment = async (appointmentId) => {
 useEffect(()=>{
     const fetchData = async () => {
         const url = 'http://localhost:8080/api/appointments';
-        const vinurl = '';
+        console.log(url)
         try{
             const response = await fetch(url);
             if (response.ok){
                 const data = await response.json();
-                const vinresponse = await fetch(vinurl);
-                if (vinresponse.ok){
-                    const vinData = await vinresponse.json();
-                    let vipVin = []
-                    vinData.autos.map(auto => {
-                        vipVin.push(auto.vin)
-                    });
-                    data.appointments.map(appointment => {
-                        if (vipVin.includes(appointment.vin)) {
-                            appointment.vip = true;
-                        }
-                    })
-                    setAppointmens(data.appointments)
-                }
+                setAppointmens(data.appointments)
             }
         } catch (e) {
             console.error(e);
         }
     }
     fetchData();
+    console.log(fetchData)
 }, []);
 
 
@@ -113,25 +101,19 @@ return (
         </tr>
         </thead>
         <tbody>
-            {appointments.map(appointment => {
-                if (appointment.status === 'created') {
-                    return (
-                    <tr key={appointment.id}>
-                        <td>{appointment.vin}</td>
-                        <td>{appointment.Vip ? "YES" : "NO"}</td>
-                        <td>{appointment.customer}</td>
-                        <td>{getDate(appointment.date_time)}</td>
-                        <td>{getTime(appointment.date_time)}</td>
-                        <td>{`${appointment.technician.first_name} ${appointment.technician.last_name}`}</td>
-                        <td>{appointment.reason}</td>
-                        <td>
-                            <button className="btn-danger me-2" onClick={() => handleCancelAppointment(appointment.id)}>Cancel</button>
-                            <button className="btn-success me-2" onClick={() => handleFinishAppointment(appointment.id)}>Finished</button>
-                        </td>
-                    </tr>
-                    )
-                }
-            })}
+            <tr key={appointments.id}>
+                <td>{appointments.vin}</td>
+                <td>{appointments.Vip ? "YES" : "NO"}</td>
+                <td>{appointments.customer}</td>
+                <td>{getDate(appointments.date_time)}</td>
+                <td>{getTime(appointments.date_time)}</td>
+                {/* <td>{`${appointments.technician.first_name} ${appointments.technician.last_name}`}</td> */}
+                <td>{appointments.reason}</td>
+                <td>
+                    <button className="btn-danger me-2" onClick={() => handleCancelAppointment(appointments.id)}>Cancel</button>
+                    <button className="btn-success me-2" onClick={() => handleFinishAppointment(appointments.id)}>Finished</button>
+                </td>
+            </tr>
         </tbody>
     </table>
     </>

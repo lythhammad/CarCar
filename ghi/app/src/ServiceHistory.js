@@ -43,7 +43,7 @@ const handleVinChange = (event) => {
 useEffect(()=>{
     const fetchData = async () => {
         const url = 'http://localhost:8080/api/appointments';
-        const vinurl = '';
+        const vinurl = 'http://localhost:8080/api/vin/';
         try{
             const response = await fetch(url);
             if (response.ok){
@@ -65,6 +65,7 @@ useEffect(()=>{
             }
         } catch (e) {
             console.error(e);
+            console.log(e)
         }
     }
     fetchData();

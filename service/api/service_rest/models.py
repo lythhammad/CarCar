@@ -25,7 +25,7 @@ class Appointment(models.Model):
     Choices = (
         ("canceled", "canceled"),
         ("finished", "finished"),
-        ("finished", "finished"),
+        ("created", "created"),
         )
     date_time = models.DateTimeField(auto_now=False, auto_now_add=False)
     reason = models.CharField(max_length=200)
