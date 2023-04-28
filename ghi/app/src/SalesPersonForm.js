@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function SalesPersonForm({ getSalesPeopleData }) {
+function SalesPersonForm() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [employeeId, setEmployeeId] = useState("");
