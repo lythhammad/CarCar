@@ -8,9 +8,19 @@ mo - Sales microservice
 ## Design
 
 ## Service microservice
+http://localhost:8080/api/appointments To GET and POST my appointments
 
-Explain your models and integration with the inventory
-microservice, here.
+
+http://localhost:8080/api/appointments/18 to DELETE any appointment
+
+
+http://localhost:8080/api/appointments/21/finish To set the statuse finish
+
+http://localhost:8080/api/appointments/13/cancel To set the statuse cancel
+
+http://localhost:8080/api/technicians
+To GET, POST, DELETE Technicians
+
 
 ## Sales microservice
 
