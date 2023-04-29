@@ -146,6 +146,8 @@ def api_show_customer(request, id):
 def api_list_sales(request):
     if request.method == "GET":
         sales = Sale.objects.all()
+        for sale in sales:
+            sale.price = str(sale.price)
         return JsonResponse(
             {"sales": sales},
             encoder=SaleEncoder,
@@ -153,69 +155,68 @@ def api_list_sales(request):
     else:
         content = json.loads(request.body)
         try:
-            try:
-                automobile = AutomobileVO.objects.get(vin=content["automobile"])
-                content["automobile"] = automobile
-            except AutomobileVO.DoesNotExist:
-                return JsonResponse(
-                    {"message": "Vin not found"},
-                    status=404
-                )
-            try:
-                salesperson = Salesperson.objects.get(employee_id=content["salesperson"])
-                content["salesperson"] = salesperson
-            except Salesperson.DoesNotExist:
-                return JsonResponse(
-                    {"message": "Employee ID not found"},
-                    status=404
-                )
-            try:
-                customer = Customer.objects.get(phone_number=content["customer"])
-                content["customer"] = customer
-            except Customer.DoesNotExist:
-                return JsonResponse(
-                    {"message": "Phone Number not found"},
-                    status=404
-                )
-            sale = Sale.objects.create(**content)
+            automobile = AutomobileVO.objects.get(vin=content["automobile"])
+            content["automobile"] = automobile
+        except AutomobileVO.DoesNotExist:
             return JsonResponse(
-                sale,
+                {"message": "Invalid vin"},
+                status=404,
+            )
+        try:
+            salesperson = Salesperson.objects.get(employee_id=content["sales_person"])
+            content["sales_person"] = salesperson
+        except Salesperson.DoesNotExist:
+            return JsonResponse(
+                {"message": "Invalid employee_id"},
+                status=404,
+            )
+        try:
+            customer = Customer.objects.get(phone_number=content["customer"])
+            content["customer"] = customer
+        except Customer.DoesNotExist:
+            return JsonResponse(
+                {"message": "Invalid customer phone_number"},
+                status=404,
+            )
+        try:
+            sales = Sale.objects.create(**content)
+            return JsonResponse(
+                sales,
                 encoder=SaleEncoder,
                 safe=False,
             )
         except:
             return JsonResponse(
-                {"message": "Sale Created"},
-                status=200
+                {"message": "Creation unsuccessful"},
+                status=400,
             )
+
 
 @require_http_methods(["GET", "DELETE"])
 def api_show_sale(request, id):
     if request.method == "GET":
         try:
-            sale = Sale.objects.get(id=id)
+            sales = Sale.objects.get(id=id)
             return JsonResponse(
-                sale,
+                {"sales": sales},
                 encoder=SaleEncoder,
-                safe=False
             )
-
         except Sale.DoesNotExist:
             return JsonResponse(
-                {"message": "Sale does not exist"},
-             status_code=404
+                {"message": "Does not exist"},
+                status=404,
             )
-    elif request.method == "DELETE":
+    else:
         try:
             sale = Sale.objects.get(id=id)
             sale.delete()
             return JsonResponse(
                 sale,
                 encoder=SaleEncoder,
-                safe=False
+                safe=False,
             )
         except Sale.DoesNotExist:
             return JsonResponse(
-                {"message": "Sale does not exist" },
-                status=404
+                {"message": "Does not exist"},
+                status=404,
             )

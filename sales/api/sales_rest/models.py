@@ -2,7 +2,8 @@ from django.db import models
 from django.urls import reverse
 
 class AutomobileVO(models.Model):
-    vin = models.TextField(max_length=17, unique=True)
+    vin = models.CharField(max_length=17, unique=True)
+    import_href = models.CharField(max_length=100)
 
 class Salesperson(models.Model):
     first_name = models.CharField(max_length=100)
