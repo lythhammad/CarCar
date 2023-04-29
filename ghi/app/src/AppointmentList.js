@@ -73,16 +73,15 @@ useEffect(()=>{
             const response = await fetch(url);
             if (response.ok){
                 const data = await response.json();
-                setAppointmens(data.appointments)
+                const filteredAppointments = data.appointments.filter(appointment => appointment.status !== "canceled" && appointment.status !== "finished");
+                setAppointmens(filteredAppointments);
             }
         } catch (e) {
             console.error(e);
         }
     }
     fetchData();
-    console.log(fetchData)
 }, []);
-
 
 
 return (
