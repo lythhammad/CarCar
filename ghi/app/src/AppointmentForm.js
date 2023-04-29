@@ -20,12 +20,11 @@ function AppointmentForm() {
 
         data.vin = vin;
         data.customer = customer;
-        data.date = date;
-        data.time = time;
+        data.date_time = date;
         data.technician = technician;
         data.reason = reason;
 
-        const serviceAppointmentUrl = "http://localhost:8080/api/appointments";
+        const AppointmentUrl = "http://localhost:8080/api/appointments";
         const fetchConfig = {
             method: "post",
             body: JSON.stringify( data ),
@@ -34,11 +33,9 @@ function AppointmentForm() {
             }
         };
 
-        const response = await fetch(serviceAppointmentUrl, fetchConfig);
+        const response = await fetch(AppointmentUrl, fetchConfig);
         if (response.ok) {
             const data = await response.json()
-            const success = document.getElementById("success");
-            success.className = "text-center";
             setVin("");
             setCustomer("");
             setDate("");

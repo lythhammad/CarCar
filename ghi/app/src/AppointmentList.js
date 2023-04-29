@@ -27,7 +27,7 @@ const handleCancelAppointment = async (appointmentId) => {
         });
         if (response.ok) {
             appointments.map(appointment =>{
-                if (appointment.id == appointmentId) {
+                if (appointment.id === appointmentId) {
                     appointment.status = "canceled"
                 }
             })
@@ -51,7 +51,7 @@ const handleFinishAppointment = async (appointmentId) => {
         });
         if (response.ok) {
             appointments.map(appointment =>{
-                if (appointment.id == appointmentId) {
+                if (appointment.id === appointmentId) {
                     appointment.status = "finished"
                 }
             })
@@ -68,31 +68,19 @@ const handleFinishAppointment = async (appointmentId) => {
 useEffect(()=>{
     const fetchData = async () => {
         const url = 'http://localhost:8080/api/appointments';
-        const vinurl = '';
+        console.log(url)
         try{
             const response = await fetch(url);
             if (response.ok){
                 const data = await response.json();
-                const vinresponse = await fetch(vinurl);
-                if (vinresponse.ok){
-                    const vinData = await vinresponse.json();
-                    let vipVin = []
-                    vinData.autos.map(auto => {
-                        vipVin.push(auto.vin)
-                    });
-                    data.appointments.map(appointment => {
-                        if (vipVin.includes(appointment.vin)) {
-                            appointment.vip = true;
-                        }
-                    })
-                    setAppointmens(data.appointments)
-                }
+                setAppointmens(data.appointments)
             }
         } catch (e) {
             console.error(e);
         }
     }
     fetchData();
+    console.log(fetchData)
 }, []);
 
 
@@ -113,25 +101,23 @@ return (
         </tr>
         </thead>
         <tbody>
-            {appointments.map(appointment => {
-                if (appointment.status === 'created') {
-                    return (
-                    <tr key={appointment.id}>
-                        <td>{appointment.vin}</td>
-                        <td>{appointment.Vip ? "YES" : "NO"}</td>
-                        <td>{appointment.customer}</td>
-                        <td>{getDate(appointment.date_time)}</td>
-                        <td>{getTime(appointment.date_time)}</td>
-                        <td>{`${appointment.technician.first_name} ${appointment.technician.last_name}`}</td>
-                        <td>{appointment.reason}</td>
-                        <td>
-                            <button className="btn-danger me-2" onClick={() => handleCancelAppointment(appointment.id)}>Cancel</button>
-                            <button className="btn-success me-2" onClick={() => handleFinishAppointment(appointment.id)}>Finished</button>
-                        </td>
-                    </tr>
-                    )
-                }
-            })}
+            {appointments.map((appointment) =>(
+                <tr key={appointment.id}>
+                    <td>{appointment.vin}</td>
+                    <td>{appointment.Vip ? "YES" : "NO"}</td>
+                    <td>{appointment.customer}</td>
+                    <td>{getDate(appointment.date_time)}</td>
+                    <td>{getTime(appointment.date_time)}</td>
+
+                    <td>{`${appointment.technician.first_name} ${appointment.technician.last_name}`}</td>
+
+                    <td>{appointment.reason}</td>
+                    <td>
+                        <button className="btn-danger me-2" onClick={() => handleCancelAppointment(appointment.id)}>Cancel</button>
+                        <button className="btn-success me-2" onClick={() => handleFinishAppointment(appointment.id)}>Finished</button>
+                    </td>
+                </tr>
+            ))}
         </tbody>
     </table>
     </>

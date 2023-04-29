@@ -54,6 +54,7 @@ def list_appointments(request):
             content["technician"] = technicians
 
             appointment = Appointment.objects.create(**content)
+            appointment.create()
             return JsonResponse(
                 appointment,
                 encoder=AppointmentEnocoder,
@@ -170,7 +171,7 @@ def list_technician(request, id):
             return JsonResponse({"message": "dose not exist"})
 
 
-@require_http_methods(["GET", "POST"])
+@require_http_methods(["GET"])
 def api_vin(request):
     if request == "GET":
         autos = AutomobileVO.objects.all()
@@ -178,3 +179,9 @@ def api_vin(request):
             {"autos": autos},
             encoder=AutomobileVOEncoder,
         )
+    else:
+        response = JsonResponse(
+            {"message": "Could not create vin"}
+        )
+        response.status_code = 400
+        return response
